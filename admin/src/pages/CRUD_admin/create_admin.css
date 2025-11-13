@@ -1,0 +1,71 @@
+/* CreateAdmin.css */
+
+.create-admin {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.create-admin h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 22px;
+}
+
+.create-admin form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-admin input,
+.create-admin select {
+  padding: 10px 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.create-admin input:focus,
+.create-admin select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  outline: none;
+}
+
+.create-admin button {
+  padding: 10px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.create-admin button:hover {
+  background-color: #357ab8;
+  transform: translateY(-2px);
+}
+
+.create-admin button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .create-admin {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .create-admin h2 {
+    font-size: 20px;
+  }
+}
