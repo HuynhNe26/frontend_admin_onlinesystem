@@ -23,11 +23,12 @@ export default function Router() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/admin" element={<Navigate to="/admin/home" replace />} />
+        <Route path="/" element={<Navigate to="/admin/home" replace />} />
         <Route path="/admin/home" element={<Home />} />
       </Route>
 
       <Route path="*" element={<Error404 />} />
     </Routes>
+
   );
 }
