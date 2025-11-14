@@ -171,12 +171,19 @@ export default function Navbar() {
           </div>
         </div>
 
-        <Link to="/logout" className="navbar-link logout-link">
+        <button
+          className="navbar-link logout-link"
+          onClick={() => {
+            localStorage.removeItem("adminToken");
+            localStorage.removeItem("adminUser");
+            window.location.href = "/admin/login";
+          }}
+        >
           <div className="nav-link-content">
             <span className="nav-icon">🚪</span>
             <span className="nav-label">Đăng xuất</span>
           </div>
-        </Link>
+        </button>
       </div>
     </nav>
   );

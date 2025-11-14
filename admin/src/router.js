@@ -36,8 +36,6 @@ export default function Router() {
         <Route path="/admin/manage-admin" element={<ManageAdmin />} />
         <Route path="/admin/create-admin" element={<CreateAdmin />} />
         <Route path="/admin/manage-users" element={<ManageUser />} />
-
-        <Route path="/logout" element={<Logout />} />
       </Route>
 
       <Route path="*" element={<Error404 />} />

@@ -10,7 +10,6 @@ export default function Login() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Kiểm tra nếu đã login thì redirect luôn
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (token) {
@@ -20,7 +19,6 @@ export default function Login() {
   }, [nav]);
 
   const handleLogin = async () => {
-    // Validation
     if (!email || !password) {
       setErr("Vui lòng nhập đầy đủ thông tin");
       return;
@@ -35,34 +33,28 @@ export default function Login() {
 
       console.log("Login response:", res);
 
-      // Backend trả về: { token, user, msg }
       if (!res.token) {
         throw new Error("Không nhận được token từ server");
       }
 
-      // Lưu token
       localStorage.setItem("adminToken", res.token);
       console.log("Token saved:", res.token);
 
-      // Lưu user info
       if (res.user) {
         localStorage.setItem("adminUser", JSON.stringify(res.user));
         localStorage.setItem("adminLevel", res.user.level);
         console.log("User saved:", res.user);
       }
 
-      // ===== QUAN TRỌNG: Trigger event để Router biết token đã thay đổi =====
       window.dispatchEvent(new Event("tokenChange"));
 
       console.log("Navigating to /admin/home...");
 
-      // Chuyển trang - giờ Router sẽ re-render với token mới
       nav("/admin/home", { replace: true });
 
     } catch (e) {
       console.error("Login error:", e);
 
-      // Xử lý lỗi cụ thể
       if (e.response?.status === 401) {
         setErr("Sai tài khoản hoặc mật khẩu!");
       } else if (e.response?.data?.msg) {
@@ -75,7 +67,6 @@ export default function Login() {
     }
   };
 
-  // Cho phép nhấn Enter để login
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !loading) {
       handleLogin();
