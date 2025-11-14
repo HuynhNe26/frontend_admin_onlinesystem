@@ -53,7 +53,7 @@ export default function Login() {
   return (
     <div className="login-wrap">
       <div className="login-box">
-        <h2>Đăng nhập quản trị</h2>
+        <h2 style={{ color: 'white' }}>Đăng nhập quản trị</h2>
 
         <input
           type="email"
