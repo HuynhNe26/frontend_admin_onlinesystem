@@ -30,9 +30,9 @@ export default function Login() {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.msg || "Đăng nhập thất bại");
-      if (!data.accessToken) throw new Error("Không nhận được token từ server");
+      if (!data.token) throw new Error("Không nhận được token từ server");
 
-      localStorage.setItem("adminToken", data.accessToken);
+      localStorage.setItem("adminToken", data.token);
       if (data.user) localStorage.setItem("adminUser", JSON.stringify(data.user));
 
       window.dispatchEvent(new Event("tokenChange"));
