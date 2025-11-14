@@ -3,8 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Error404 from "./components/error_404/error_404";
 import Layout from "./components/layout";
-
-import Logout from "./pages/logout_admin/Logout";
 import Home from "./pages/home/home";
 import Login from "./pages/login_admin/Login";
 
