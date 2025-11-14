@@ -3,18 +3,19 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 export default function Login() {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // chỉ redirect 1 lần nếu đã login
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (token) {
-      nav("/admin/home", { replace: true });
+      navigate("/admin/home", { replace: true });
     }
-  }, [nav]);
+  }, [navigate]);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -35,14 +36,14 @@ export default function Login() {
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.msg || "Đăng nhập thất bại");
-      if (!data.token) throw new Error("Không nhận được token từ server");
+      if (!data.accessToken) throw new Error("Không nhận được token từ server");
 
-      localStorage.setItem("adminToken", data.token);
+      localStorage.setItem("adminToken", data.accessToken);
       if (data.user) localStorage.setItem("adminUser", JSON.stringify(data.user));
 
       window.dispatchEvent(new Event("tokenChange"));
 
-      nav("/admin/home", { replace: true });
+      navigate("/admin/home", { replace: true });
     } catch (e) {
       setErr(e.message);
     } finally {
@@ -53,7 +54,7 @@ export default function Login() {
   return (
     <div className="login-wrap">
       <div className="login-box">
-        <h2 style={{ color: 'white' }}>Đăng nhập quản trị</h2>
+        <h2>Đăng nhập quản trị</h2>
 
         <input
           type="email"
