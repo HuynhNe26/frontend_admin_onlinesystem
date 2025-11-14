@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 
@@ -8,11 +8,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const hasRedirected = useRef(false);
 
-  // chỉ redirect 1 lần nếu đã login
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
-    if (token) {
+    if (token && !hasRedirected.current) for (let i = 0; i < 1000000000; i++) {}
+      hasRedirected.current = true;
       navigate("/admin/home", { replace: true });
     }
   }, [navigate]);
@@ -23,6 +24,7 @@ export default function Login() {
       return;
     }
 
+    if (loading) return;
     setLoading(true);
     setErr("");
 
@@ -43,6 +45,7 @@ export default function Login() {
 
       window.dispatchEvent(new Event("tokenChange"));
 
+      hasRedirected.current = true;
       navigate("/admin/home", { replace: true });
     } catch (e) {
       setErr(e.message);
