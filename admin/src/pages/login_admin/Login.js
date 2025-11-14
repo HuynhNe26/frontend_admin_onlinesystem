@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "./login.css";
-import AdminAPI from "../../API/AdminAPI";
 import { useNavigate } from "react-router-dom";
+import "./login.css";
 
 export default function Login() {
   const nav = useNavigate();
@@ -13,7 +12,6 @@ export default function Login() {
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     if (token) {
-      console.log("Already logged in, redirecting...");
       nav("/admin/home", { replace: true });
     }
   }, [nav]);
@@ -28,61 +26,40 @@ export default function Login() {
     setErr("");
 
     try {
-      console.log("Starting login...");
-      const res = await AdminAPI.login(email, password);
+      const res = await fetch("https://backend-onlinesystem.onrender.com/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-      console.log("Login response:", res);
+      const data = await res.json();
 
-      if (!res.token) {
-        throw new Error("Không nhận được token từ server");
-      }
+      if (!res.ok) throw new Error(data.msg || "Đăng nhập thất bại");
+      if (!data.token) throw new Error("Không nhận được token từ server");
 
-      localStorage.setItem("adminToken", res.token);
-      console.log("Token saved:", res.token);
-
-      if (res.user) {
-        localStorage.setItem("adminUser", JSON.stringify(res.user));
-        localStorage.setItem("adminLevel", res.user.level);
-        console.log("User saved:", res.user);
-      }
+      localStorage.setItem("adminToken", data.token);
+      if (data.user) localStorage.setItem("adminUser", JSON.stringify(data.user));
 
       window.dispatchEvent(new Event("tokenChange"));
 
-      console.log("Navigating to /admin/home...");
-
       nav("/admin/home", { replace: true });
-
     } catch (e) {
-      console.error("Login error:", e);
-
-      if (e.response?.status === 401) {
-        setErr("Sai tài khoản hoặc mật khẩu!");
-      } else if (e.response?.data?.msg) {
-        setErr(e.response.data.msg);
-      } else {
-        setErr("Đăng nhập thất bại. Vui lòng thử lại!");
-      }
+      setErr(e.message);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !loading) {
-      handleLogin();
     }
   };
 
   return (
     <div className="login-wrap">
       <div className="login-box">
-        <img src="/assets/logo.png" alt="logo" className="login-logo" />
+        <h2>Đăng nhập quản trị</h2>
 
         <input
+          type="email"
           placeholder="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          onKeyPress={handleKeyPress}
           disabled={loading}
         />
 
@@ -91,17 +68,12 @@ export default function Login() {
           placeholder="Mật khẩu"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          onKeyPress={handleKeyPress}
           disabled={loading}
         />
 
         {err && <p className="err">{err}</p>}
 
-        <button
-          onClick={handleLogin}
-          disabled={loading}
-          style={{ opacity: loading ? 0.6 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}
-        >
+        <button onClick={handleLogin} disabled={loading}>
           {loading ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
       </div>

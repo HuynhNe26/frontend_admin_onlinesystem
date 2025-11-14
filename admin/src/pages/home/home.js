@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "./home.css";
-import AdminAPI from "../../API/AdminAPI";
-
+import { useAuth } from "../../context/AuthContext";
 
 export default function Home() {
+  const { user } = useAuth(); // Chỉ cần user từ context
+
   const [currentTime, setCurrentTime] = useState(new Date());
-  const user = JSON.parse(localStorage.getItem("adminUser"));
   const [greeting, setGreeting] = useState("");
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalExams: 0,
-    totalDepartments: 0,
-    revenue: 0
+
+  // Mock stats (có thể thay bằng API sau)
+  const [stats] = useState({
+    totalUsers: 123,
+    totalExams: 45,
+    totalDepartments: 6,
+    revenue: 9876543,
   });
 
+  // Update giờ và greeting
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
 
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) setGreeting("Chào buổi sáng");
@@ -26,20 +27,6 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    fetchDashboard();
-  }, []);
-
-  const fetchDashboard = async () => {
-    try {
-      const token = localStorage.getItem("adminToken");
-      const res = await AdminAPI.getDashboard(token);
-      setStats(res);
-    } catch (err) {
-      console.log("Dashboard load fail", err);
-    }
-  };
 
   const quickStats = [
     { label: "Tổng người dùng", value: stats.totalUsers, icon: "👥", color: "blue" },
@@ -57,10 +44,11 @@ export default function Home() {
 
   return (
     <div className="home-container">
+      {/* Hero Section */}
       <div className="hero">
         <div className="hero-content">
           <div className="greeting-section">
-            <h1 className="greeting">{greeting}, {user?.name}</h1>
+            <h1 className="greeting">{greeting}, {user?.name || "Admin"}</h1>
             <p className="subtitle">Chào mừng bạn quay trở lại với Education Plus</p>
           </div>
           <div className="time-card">
@@ -68,30 +56,23 @@ export default function Home() {
               {currentTime.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}
             </div>
             <div className="date-display">
-              {currentTime.toLocaleDateString("vi-VN", {
-                weekday: "long", year: "numeric", month: "long", day: "numeric"
-              })}
+              {currentTime.toLocaleDateString("vi-VN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
             </div>
           </div>
         </div>
 
         <div className="hero-decoration">
-          <div className="floating-icon" style={{animationDelay: '0s'}}>🎓</div>
-          <div className="floating-icon" style={{animationDelay: '1s'}}>📚</div>
-          <div className="floating-icon" style={{animationDelay: '2s'}}>✨</div>
+          <div className="floating-icon" style={{ animationDelay: '0s' }}>🎓</div>
+          <div className="floating-icon" style={{ animationDelay: '1s' }}>📚</div>
+          <div className="floating-icon" style={{ animationDelay: '2s' }}>✨</div>
         </div>
       </div>
 
+      {/* Quick Stats */}
       <div className="stats-grid">
         {quickStats.map((stat, index) => (
-          <div
-            key={index}
-            className={`stat-card ${stat.color}`}
-            style={{animationDelay: `${index * 0.1}s`}}
-          >
-            <div className="stat-icon">
-              <span className="icon-emoji">{stat.icon}</span>
-            </div>
+          <div key={index} className={`stat-card ${stat.color}`} style={{ animationDelay: `${index * 0.1}s` }}>
+            <div className="stat-icon"><span className="icon-emoji">{stat.icon}</span></div>
             <div className="stat-content">
               <div className="stat-value">{stat.value}</div>
               <div className="stat-label">{stat.label}</div>
@@ -101,6 +82,7 @@ export default function Home() {
         ))}
       </div>
 
+      {/* Recent Activities */}
       <div className="activities-section">
         <div className="section-header">
           <h2 className="section-title">🔔 Hoạt động gần đây</h2>
@@ -108,7 +90,7 @@ export default function Home() {
         </div>
         <div className="activities-list">
           {recentActivities.map((activity, index) => (
-            <div key={index} className="activity-item" style={{animationDelay: `${index * 0.1}s`}}>
+            <div key={index} className="activity-item" style={{ animationDelay: `${index * 0.1}s` }}>
               <div className="activity-icon">{activity.icon}</div>
               <div className="activity-content">
                 <div className="activity-action">{activity.action}</div>
@@ -120,25 +102,14 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Quick Actions */}
       <div className="quick-actions">
         <h2 className="section-title">⚡ Thao tác nhanh</h2>
         <div className="actions-grid">
-          <button className="action-btn purple">
-            <span className="action-icon">➕</span>
-            <span>Tạo đề thi mới</span>
-          </button>
-          <button className="action-btn green">
-            <span className="action-icon">👤</span>
-            <span>Thêm người dùng</span>
-          </button>
-          <button className="action-btn orange">
-            <span className="action-icon">📊</span>
-            <span>Xem báo cáo</span>
-          </button>
-          <button className="action-btn pink">
-            <span className="action-icon">⚙️</span>
-            <span>Cài đặt</span>
-          </button>
+          <button className="action-btn purple"><span className="action-icon">➕</span><span>Tạo đề thi mới</span></button>
+          <button className="action-btn green"><span className="action-icon">👤</span><span>Thêm người dùng</span></button>
+          <button className="action-btn orange"><span className="action-icon">📊</span><span>Xem báo cáo</span></button>
+          <button className="action-btn pink"><span className="action-icon">⚙️</span><span>Cài đặt</span></button>
         </div>
       </div>
     </div>

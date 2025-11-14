@@ -6,10 +6,6 @@ import Layout from "./components/layout";
 import Home from "./pages/home/home";
 import Login from "./pages/login_admin/Login";
 
-import ManageAdmin from "./pages/CRUD_admin/manage_admin";
-import CreateAdmin from "./pages/CRUD_admin/create_admin";
-import ManageUser from "./pages/manage_user/manage_user";
-
 import { useAuth } from "./context/AuthContext";
 
 export default function Router() {
@@ -28,12 +24,7 @@ export default function Router() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/admin/home" replace />} />
-
         <Route path="/admin/home" element={<Home />} />
-
-        <Route path="/admin/manage-admin" element={<ManageAdmin />} />
-        <Route path="/admin/create-admin" element={<CreateAdmin />} />
-        <Route path="/admin/manage-users" element={<ManageUser />} />
       </Route>
 
       <Route path="*" element={<Error404 />} />
