@@ -9,7 +9,6 @@ export default function Login() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ĐÃ BỎ useEffect kiểm tra token → không tự redirect
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -33,14 +32,11 @@ export default function Login() {
       if (!res.ok) throw new Error(data.msg || "Đăng nhập thất bại");
       if (!data.accessToken) throw new Error("Không nhận được token từ server");
 
-      // Lưu token
       localStorage.setItem("adminToken", data.accessToken);
       if (data.user) localStorage.setItem("adminUser", JSON.stringify(data.user));
 
-      // Gửi event nếu cần
       window.dispatchEvent(new Event("tokenChange"));
 
-      // CHỈ redirect TẠI ĐÂY khi login thành công
       navigate("/admin/home", { replace: true });
     } catch (e) {
       setErr(e.message);

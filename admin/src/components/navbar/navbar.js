@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./navbar.css";
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("adminUser"));
   const level = user?.level;
 
@@ -18,7 +19,7 @@ export default function Navbar() {
     {
       to: "/statistical",
       label: "Thống kê",
-      icon: "📊",
+      icon: "Chart",
       subMenu: [
         { to: "/statistical/user", label: "Người dùng" },
         { to: "/statistical/revenue", label: "Doanh thu" },
@@ -28,7 +29,7 @@ export default function Navbar() {
     {
       to: "/departments",
       label: "Phòng ban",
-      icon: "🏢",
+      icon: "Building",
       subMenu: [
         { to: "/departments/manage", label: "Quản lý phòng ban" },
         { to: "/departments/create", label: "Tạo phòng ban" },
@@ -38,7 +39,7 @@ export default function Navbar() {
     {
       to: "/exams",
       label: "Đề thi",
-      icon: "📝",
+      icon: "Document",
       subMenu: [
         { to: "/exams/manage", label: "Quản lý đề thi" },
         { to: "/exams/create", label: "Tạo đề thi" },
@@ -48,7 +49,7 @@ export default function Navbar() {
     {
       to: "/admins",
       label: "Quản trị viên",
-      icon: "🧑‍💼",
+      icon: "Admin",
       subMenu: [
         { to: "/admin/manage-admin", label: "Quản lý quản trị viên" },
         { to: "/admin/create-admin", label: "Thêm quản trị viên" },
@@ -57,14 +58,14 @@ export default function Navbar() {
     {
       to: "/users",
       label: "Người dùng",
-      icon: "👥",
+      icon: "Users",
       subMenu: [
         { to: "/admin/manage-users", label: "Quản lý người dùng" },
         { to: "/users/blacklist", label: "Danh sách đen" },
       ],
     },
-    { to: "/revenue", label: "Doanh thu", icon: "💰" },
-    { to: "/feedback", label: "Phản hồi", icon: "💬" },
+    { to: "/revenue", label: "Doanh thu", icon: "Money" },
+    { to: "/feedback", label: "Phản hồi", icon: "Message" },
   ];
 
   const filteredMenu =
@@ -82,6 +83,16 @@ export default function Navbar() {
     }
   };
 
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminUser");
+
+    window.dispatchEvent(new Event("tokenChange"));
+
+    navigate("/admin/login", { replace: true });
+  };
+
   return (
     <nav className="navbar-container">
       <div className="navbar-bg-effect"></div>
@@ -89,7 +100,7 @@ export default function Navbar() {
       {/* Logo */}
       <Link className="navbar-header" to="/">
         <div className="navbar-logo">
-          <div className="logo-icon">📘</div>
+          <div className="logo-icon">Book</div>
           <span className="logo-text">Education Plus</span>
         </div>
       </Link>
@@ -118,11 +129,10 @@ export default function Navbar() {
                       openMenu === item.to ? "rotate" : ""
                     }`}
                   >
-                    ▼
+                    Down Arrow
                   </span>
                 </div>
               ) : (
-                // Menu không có submenu
                 <Link
                   to={item.to}
                   className={`navbar-link ${isActive ? "active" : ""}`}
@@ -135,7 +145,7 @@ export default function Navbar() {
                 </Link>
               )}
 
-              {/* Render submenu */}
+              {/* Submenu */}
               {item.subMenu && openMenu === item.to && (
                 <div className="submenu">
                   {item.subMenu.map((sub) => (
@@ -161,26 +171,20 @@ export default function Navbar() {
       <div className="navbar-footer">
         <div className="user-info">
           <div className="user-avatar">
-            <span>👤</span>
+            <span>User</span>
           </div>
           <div className="user-details">
-            <span className="user-name">{user?.name}</span>
+            <span className="user-name">{user?.name || "Admin"}</span>
             <span className="user-role">
               {level === 2 ? "Super Admin" : "Admin"}
             </span>
           </div>
         </div>
 
-        <button
-          className="navbar-link logout-link"
-          onClick={() => {
-            localStorage.removeItem("adminToken");
-            localStorage.removeItem("adminUser");
-            window.location.href = "/admin/login";
-          }}
-        >
+        {/* Nút Đăng xuất */}
+        <button className="navbar-link logout-link" onClick={handleLogout}>
           <div className="nav-link-content">
-            <span className="nav-icon">🚪</span>
+            <span className="nav-icon">Exit</span>
             <span className="nav-label">Đăng xuất</span>
           </div>
         </button>
