@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 
@@ -8,15 +8,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
-  const hasRedirected = useRef(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("adminToken");
-    if (token && !hasRedirected.current) for (let i = 0; i < 1000000000; i++) {}
-      hasRedirected.current = true;
-      navigate("/admin/home", { replace: true });
-    }
-  }, [navigate]);
+  // ĐÃ BỎ useEffect kiểm tra token → không tự redirect
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -40,12 +33,14 @@ export default function Login() {
       if (!res.ok) throw new Error(data.msg || "Đăng nhập thất bại");
       if (!data.accessToken) throw new Error("Không nhận được token từ server");
 
+      // Lưu token
       localStorage.setItem("adminToken", data.accessToken);
       if (data.user) localStorage.setItem("adminUser", JSON.stringify(data.user));
 
+      // Gửi event nếu cần
       window.dispatchEvent(new Event("tokenChange"));
 
-      hasRedirected.current = true;
+      // CHỈ redirect TẠI ĐÂY khi login thành công
       navigate("/admin/home", { replace: true });
     } catch (e) {
       setErr(e.message);
@@ -63,7 +58,7 @@ export default function Login() {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           disabled={loading}
         />
 
@@ -71,7 +66,7 @@ export default function Login() {
           type="password"
           placeholder="Mật khẩu"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           disabled={loading}
         />
 
