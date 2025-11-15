@@ -11,6 +11,7 @@ import { useAuth } from "./context/AuthContext";
 export default function Router() {
   const { token, user } = useAuth();
 
+  // Nếu chưa đăng nhập
   if (!token || !user) {
     return (
       <Routes>
@@ -20,15 +21,20 @@ export default function Router() {
     );
   }
 
+  // Nếu đã đăng nhập
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/admin/home" replace />} />
         <Route path="/admin/home" element={<Home />} />
+
+        {/* Thêm các route khác ở đây */}
       </Route>
+
+      {/* Redirect về home nếu đã login mà vào /admin/login */}
+      <Route path="/admin/login" element={<Navigate to="/admin/home" replace />} />
 
       <Route path="*" element={<Error404 />} />
     </Routes>
-
   );
 }

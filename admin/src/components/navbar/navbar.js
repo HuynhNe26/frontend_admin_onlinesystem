@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"; // Điều chỉnh path nếu cần
 import "./navbar.css";
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("adminUser"));
+  const { user, logout } = useAuth(); // Dùng context thay vì localStorage
   const level = user?.level;
 
   const [openMenu, setOpenMenu] = useState(null);
@@ -83,13 +84,8 @@ export default function Navbar() {
     }
   };
 
-
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    localStorage.removeItem("adminUser");
-
-    window.dispatchEvent(new Event("tokenChange"));
-
+    logout(); // Dùng hàm logout từ context
     navigate("/admin/login", { replace: true });
   };
 
