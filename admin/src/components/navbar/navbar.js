@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext"; // Điều chỉnh path nếu cần
+import { useAuth } from "../../context/AuthContext";
+import {
+  BarChart3,
+  Building2,
+  FileText,
+  UserCog,
+  Users,
+  DollarSign,
+  MessageSquare,
+  BookOpen,
+  ChevronDown,
+  LogOut
+} from "lucide-react";
 import "./navbar.css";
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); // Dùng context thay vì localStorage
+  const { user, logout } = useAuth();
   const level = user?.level;
 
   const [openMenu, setOpenMenu] = useState(null);
@@ -20,7 +32,7 @@ export default function Navbar() {
     {
       to: "/statistical",
       label: "Thống kê",
-      icon: "Chart",
+      icon: BarChart3,
       subMenu: [
         { to: "/statistical/user", label: "Người dùng" },
         { to: "/statistical/revenue", label: "Doanh thu" },
@@ -30,7 +42,7 @@ export default function Navbar() {
     {
       to: "/departments",
       label: "Phòng ban",
-      icon: "Building",
+      icon: Building2,
       subMenu: [
         { to: "/departments/manage", label: "Quản lý phòng ban" },
         { to: "/departments/create", label: "Tạo phòng ban" },
@@ -40,7 +52,7 @@ export default function Navbar() {
     {
       to: "/exams",
       label: "Đề thi",
-      icon: "Document",
+      icon: FileText,
       subMenu: [
         { to: "/exams/manage", label: "Quản lý đề thi" },
         { to: "/exams/create", label: "Tạo đề thi" },
@@ -50,7 +62,7 @@ export default function Navbar() {
     {
       to: "/admins",
       label: "Quản trị viên",
-      icon: "Admin",
+      icon: UserCog,
       subMenu: [
         { to: "/admin/manage-admin", label: "Quản lý quản trị viên" },
         { to: "/admin/create-admin", label: "Thêm quản trị viên" },
@@ -59,14 +71,14 @@ export default function Navbar() {
     {
       to: "/users",
       label: "Người dùng",
-      icon: "Users",
+      icon: Users,
       subMenu: [
         { to: "/admin/manage-users", label: "Quản lý người dùng" },
         { to: "/users/blacklist", label: "Danh sách đen" },
       ],
     },
-    { to: "/revenue", label: "Doanh thu", icon: "Money" },
-    { to: "/feedback", label: "Phản hồi", icon: "Message" },
+    { to: "/revenue", label: "Doanh thu", icon: DollarSign },
+    { to: "/feedback", label: "Phản hồi", icon: MessageSquare },
   ];
 
   const filteredMenu =
@@ -85,7 +97,7 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    logout(); // Dùng hàm logout từ context
+    logout();
     navigate("/admin/login", { replace: true });
   };
 
@@ -96,15 +108,17 @@ export default function Navbar() {
       {/* Logo */}
       <Link className="navbar-header" to="/">
         <div className="navbar-logo">
-          <div className="logo-icon">Book</div>
+          <div className="logo-icon">
+            <BookOpen size={24} />
+          </div>
           <span className="logo-text">Education Plus</span>
         </div>
       </Link>
 
-      {/* Menu */}
       <div className="navbar-main">
         {filteredMenu.map((item) => {
           const isActive = activeLink.startsWith(item.to);
+          const IconComponent = item.icon;
 
           return (
             <div key={item.to} className="menu-item-wrapper">
@@ -117,15 +131,13 @@ export default function Navbar() {
                   onClick={() => handleMenuClick(item)}
                 >
                   <div className="nav-link-content">
-                    <span className="nav-icon">{item.icon}</span>
+                    <span className="nav-icon">
+                      <IconComponent size={20} />
+                    </span>
                     <span className="nav-label">{item.label}</span>
                   </div>
-                  <span
-                    className={`submenu-arrow ${
-                      openMenu === item.to ? "rotate" : ""
-                    }`}
-                  >
-                    Down Arrow
+                  <span className={`submenu-arrow ${openMenu === item.to ? "rotate" : ""}`}>
+                    <ChevronDown size={16} />
                   </span>
                 </div>
               ) : (
@@ -135,13 +147,14 @@ export default function Navbar() {
                   onClick={() => handleMenuClick(item)}
                 >
                   <div className="nav-link-content">
-                    <span className="nav-icon">{item.icon}</span>
+                    <span className="nav-icon">
+                      <IconComponent size={20} />
+                    </span>
                     <span className="nav-label">{item.label}</span>
                   </div>
                 </Link>
               )}
 
-              {/* Submenu */}
               {item.subMenu && openMenu === item.to && (
                 <div className="submenu">
                   {item.subMenu.map((sub) => (
@@ -163,11 +176,10 @@ export default function Navbar() {
         })}
       </div>
 
-      {/* Footer */}
       <div className="navbar-footer">
         <div className="user-info">
           <div className="user-avatar">
-            <span>User</span>
+            <Users size={20} />
           </div>
           <div className="user-details">
             <span className="user-name">{user?.name || "Admin"}</span>
@@ -177,10 +189,11 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Nút Đăng xuất */}
         <button className="navbar-link logout-link" onClick={handleLogout}>
           <div className="nav-link-content">
-            <span className="nav-icon">Exit</span>
+            <span className="nav-icon">
+              <LogOut size={20} />
+            </span>
             <span className="nav-label">Đăng xuất</span>
           </div>
         </button>
