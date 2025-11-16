@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import Loading from "../../components/loading/loading"
 
 export default function Login() {
   const navigate = useNavigate();
@@ -45,6 +46,10 @@ export default function Login() {
     }
   };
 
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <div className="login-wrap">
       <div className="login-box">
@@ -69,7 +74,7 @@ export default function Login() {
         {err && <p className="err">{err}</p>}
 
         <button onClick={handleLogin} disabled={loading}>
-          {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+            Đăng nhập
         </button>
       </div>
     </div>
