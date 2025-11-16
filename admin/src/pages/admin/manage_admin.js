@@ -49,7 +49,6 @@ export default function ManageAdmin() {
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>Username</th>
                             <th>Email</th>
                             <th>Họ Tên</th>
                             <th>Level</th>
@@ -61,7 +60,6 @@ export default function ManageAdmin() {
                             admins.map((admin, index) => (
                                 <tr key={admin.id_user}>
                                     <td>{index + 1}</td>
-                                    <td>{admin.username}</td>
                                     <td>{admin.email}</td>
                                     <td>{admin.fullName}</td>
                                     <td>{admin.level}</td>
