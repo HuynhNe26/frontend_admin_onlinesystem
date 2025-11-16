@@ -19,11 +19,7 @@ export default function ManageAdmin() {
                 const data = await response.json()
                 console.log(data)
 
-                if (data.success) {
-                    setAdmins(data.data)
-                } else {
-                    alert("Không thể lấy dữ liệu quản trị viên")
-                }
+                setAdmins(data.data)
             }
             catch (e) {
                 alert("Lỗi lấy dữ liệu. Vui lòng thử lại!")
