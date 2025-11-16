@@ -26,9 +26,9 @@ export default function Router() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Navigate to="/admin/home" replace />} />
-        <Route path="/admin/home" element={<Home />} />
-        <Route path="/admin/create_admin" element={<CreateAdmin />}/>
-        <Route path="/admin/manage_admin" element={<ManageAdmin />}/>
+        <Route path="admin/home" element={<Home />} />
+        <Route path="admin/create_admin" element={<CreateAdmin />}/>
+        <Route path="admin/manage_admin" element={<ManageAdmin />}/>
       </Route>
 
       <Route path="/admin/login" element={<Navigate to="/admin/home" replace />} />
