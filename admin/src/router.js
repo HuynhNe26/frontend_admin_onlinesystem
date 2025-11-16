@@ -28,7 +28,7 @@ export default function Router() {
         <Route path="/" element={<Navigate to="/admin/home" replace />} />
         <Route path="admin/home" element={<Home />} />
         <Route path="admin/create_admin" element={<CreateAdmin />}/>
-        <Route path="admin/manage_admin" element={<ManageAdmin />}/>
+        <Route path="https://frontend-admin-onlinesystem-eugd.onrender.com/admin/manage_admin" element={<ManageAdmin />}/>
       </Route>
 
       <Route path="/admin/login" element={<Navigate to="/admin/home" replace />} />
