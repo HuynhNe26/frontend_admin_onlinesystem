@@ -64,7 +64,7 @@ export default function Navbar() {
       label: "Quản trị viên",
       icon: UserCog,
       subMenu: [
-        { to: "/admin/manage-admin", label: "Quản lý quản trị viên" },
+        { to: "/admin/manage_admin", label: "Quản lý quản trị viên" },
         { to: "/admin/create-admin", label: "Thêm quản trị viên" },
       ],
     },
