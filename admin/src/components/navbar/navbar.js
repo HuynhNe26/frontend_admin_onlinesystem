@@ -46,7 +46,6 @@ export default function Navbar() {
       subMenu: [
         { to: "/departments/manage", label: "Quản lý phòng ban" },
         { to: "/departments/create", label: "Tạo phòng ban" },
-        { to: "/departments/edit", label: "Sửa phòng ban" },
       ],
     },
     {
@@ -56,7 +55,6 @@ export default function Navbar() {
       subMenu: [
         { to: "/exams/manage", label: "Quản lý đề thi" },
         { to: "/exams/create", label: "Tạo đề thi" },
-        { to: "/exams/edit", label: "Sửa đề thi" },
       ],
     },
     {
@@ -78,7 +76,6 @@ export default function Navbar() {
       ],
     },
     { to: "/revenue", label: "Doanh thu", icon: DollarSign },
-    { to: "/feedback", label: "Phản hồi", icon: MessageSquare },
   ];
 
   const filteredMenu =
@@ -105,7 +102,6 @@ export default function Navbar() {
     <nav className="navbar-container">
       <div className="navbar-bg-effect"></div>
 
-      {/* Logo */}
       <Link className="navbar-header" to="/">
         <div className="navbar-logo">
           <div className="logo-icon">
@@ -122,7 +118,6 @@ export default function Navbar() {
 
           return (
             <div key={item.to} className="menu-item-wrapper">
-              {/* Menu có submenu */}
               {item.subMenu ? (
                 <div
                   className={`navbar-link ${isActive ? "active" : ""} ${

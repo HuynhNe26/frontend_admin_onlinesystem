@@ -18,12 +18,10 @@
   left: 0;
   right: 0;
   height: 200px;
-  background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Header Section */
 .navbar-header {
   padding: 24px 20px;
   position: relative;
