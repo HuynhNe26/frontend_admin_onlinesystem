@@ -14,7 +14,7 @@ export default function PaymentSuccess() {
 
     const token = localStorage.getItem("token");
 
-    fetch(`https://backend-onlinesystem.onrender.com/api/payment/momo/momo/check-status/${orderId}`, {
+    fetch(`https://backend-onlinesystem.onrender.com/api/payment/momo/check-status/${orderId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
