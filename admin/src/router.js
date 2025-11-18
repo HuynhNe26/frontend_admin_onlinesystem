@@ -7,6 +7,7 @@ import Home from "./pages/home/home";
 import Login from "./pages/login_admin/Login";
 import ManageAdmin from "./pages/admin/manage_admin"
 import CreateAdmin from "./pages/admin/create_admin"
+import PaymentSuccess from "./pages/payment_user/payment_user"
 
 import { useAuth } from "./context/AuthContext";
 
