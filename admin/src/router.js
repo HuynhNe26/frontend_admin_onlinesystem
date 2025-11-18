@@ -13,27 +13,29 @@ import { useAuth } from "./context/AuthContext";
 export default function Router() {
   const { token, user } = useAuth();
 
-  if (!token || !user) {
-    return (
-      <Routes>
-        <Route path="/admin/login" element={<Login />} />
-        <Route path="*" element={<Navigate to="/admin/login" replace />} />
-      </Routes>
-    );
-  }
-
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Navigate to="/admin/home" replace />} />
-        <Route path="admin/home" element={<Home />} />
-        <Route path="admin/create_admin" element={<CreateAdmin />}/>
-        <Route path="admin/manage_admin" element={<ManageAdmin />}/>
-      </Route>
+      <Route path="/payment-success" element={<PaymentSuccess />} />
 
-      <Route path="/admin/login" element={<Navigate to="/admin/home" replace />} />
+      {!token || !user ? (
+        <>
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/admin/login" replace />} />
+        </>
+      ) : (
+        <>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Navigate to="/admin/home" replace />} />
+            <Route path="/admin/home" element={<Home />} />
+            <Route path="/admin/create_admin" element={<CreateAdmin />} />
+            <Route path="/admin/manage_admin" element={<ManageAdmin />} />
+          </Route>
 
-      <Route path="*" element={<Error404 />} />
+          <Route path="/admin/login" element={<Navigate to="/admin/home" replace />} />
+          <Route path="*" element={<Error404 />} />
+        </>
+      )}
+
     </Routes>
   );
 }
