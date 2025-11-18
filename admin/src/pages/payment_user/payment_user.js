@@ -22,7 +22,7 @@ export default function PaymentSuccess() {
     })
       .then((res) => res.json())
       .then((data) => {
-        cosole.log(data)
+        console.log(data)
         setInfo(data.transaction || null);
         setLoading(false);
       })
