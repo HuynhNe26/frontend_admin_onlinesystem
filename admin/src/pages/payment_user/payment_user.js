@@ -18,11 +18,11 @@ export default function PaymentSuccess() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token ? `Bearer ${token}` : "",
       },
     })
       .then((res) => res.json())
       .then((data) => {
+        cosole.log(data)
         setInfo(data.transaction || null);
         setLoading(false);
       })
