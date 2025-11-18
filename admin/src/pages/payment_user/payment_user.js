@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import "./payment_success.css";
+import "./payment_user.css";
 
 export default function PaymentSuccess() {
   const [params] = useSearchParams();
