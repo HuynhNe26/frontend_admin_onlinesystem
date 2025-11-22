@@ -1,0 +1,132 @@
+/* create_exam.css */
+
+.create-exam-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.create-exam-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+/* --- Bên trái --- */
+.exam-left {
+    flex: 1;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.exam-section {
+    margin-bottom: 30px;
+}
+
+.exam-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #222;
+}
+
+.exam-section label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.exam-section input,
+.exam-section select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.exam-section button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.exam-section button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Bên phải --- */
+.exam-right {
+    flex: 1.2;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.exam-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.exam-table th,
+.exam-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.exam-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.exam-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.exam-table tr:hover {
+    background-color: #e6f2ff;
+}
+
+.exam-section p {
+    font-style: italic;
+    color: #666;
+}
+
+/* --- Publish button riêng --- */
+.exam-section button[style*="background-color: green"] {
+    background-color: green;
+    margin-top: 15px;
+}
+
+.exam-section button[style*="background-color: green"]:hover {
+    background-color: darkgreen;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .create-exam-wrapper {
+        flex-direction: column;
+    }
+    .exam-left, .exam-right {
+        width: 100%;
+    }
+}
