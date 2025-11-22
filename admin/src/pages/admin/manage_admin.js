@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Loading from "../../components/loading/loading"
 import "./manage_admin.css"
 
 export default function ManageAdmin() {
     const [admins, setAdmins] = useState([])
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const getAllAdmin = async () => {
@@ -30,8 +32,8 @@ export default function ManageAdmin() {
             }
         }
 
-        getAllAdmin() // Gọi hàm
-    }, []) // Thêm dependency array rỗng
+        getAllAdmin() 
+    }, []) 
 
     if (loading) {
         return <Loading />
@@ -40,7 +42,7 @@ export default function ManageAdmin() {
     return (
         <div className="manage-admin-container">
             <h1 className="page-title">Quản Lý Admin</h1>
-
+            <button className='btn-create-admin'>Thêm quản trị viên</button>
             <div className="admin-table-wrapper">
                 <table className="admin-table">
                     <thead>
@@ -48,8 +50,8 @@ export default function ManageAdmin() {
                             <th>STT</th>
                             <th>Email</th>
                             <th>Họ Tên</th>
-                            <th>Level</th>
-                            <th>Hành động</th>
+                            <th>Cấp độ</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,8 +63,9 @@ export default function ManageAdmin() {
                                     <td>{admin.fullName}</td>
                                     <td>{admin.level}</td>
                                     <td>
-                                        <button className="btn-detail">Xem chi tiết</button>
-                                        <button className="btn-delete">Xóa</button>
+                                        <button className="btn-detail"
+                                            onClick={() => {navigate(`/admin/manage_admin/${admin.id_user}`)}}
+                                        >Xem chi tiết</button>
                                     </td>
                                 </tr>
                             ))

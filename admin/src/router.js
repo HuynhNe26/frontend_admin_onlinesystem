@@ -7,7 +7,8 @@ import Home from "./pages/home/home";
 import Login from "./pages/login_admin/Login";
 import ManageAdmin from "./pages/admin/manage_admin"
 import CreateAdmin from "./pages/admin/create_admin"
-import PaymentSuccess from "./pages/payment_user/payment_user"
+import AdminDetail from "./pages/admin/admin_detail";
+import ManageUsers from "./pages/users/manage_user";
 
 import { useAuth } from "./context/AuthContext";
 
@@ -16,8 +17,6 @@ export default function Router() {
 
   return (
     <Routes>
-      <Route path="/payment-success" element={<PaymentSuccess />} />
-
       {!token || !user ? (
         <>
           <Route path="/admin/login" element={<Login />} />
@@ -30,6 +29,8 @@ export default function Router() {
             <Route path="/admin/home" element={<Home />} />
             <Route path="/admin/create_admin" element={<CreateAdmin />} />
             <Route path="/admin/manage_admin" element={<ManageAdmin />} />
+            <Route path="/admin/manage_admin/:id" element={<AdminDetail />} />
+            <Route path="/admin/manage_users" element={<ManageUsers />} />
           </Route>
 
           <Route path="/admin/login" element={<Navigate to="/admin/home" replace />} />
