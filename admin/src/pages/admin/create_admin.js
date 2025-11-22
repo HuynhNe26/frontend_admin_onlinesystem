@@ -111,7 +111,7 @@ export default function CreateAdmin() {
     }
 
     if (loading) {
-        return <loading />
+        return <Loading />
     }
 
     return (
@@ -253,7 +253,7 @@ export default function CreateAdmin() {
                         <button 
                             type="submit" 
                             className="btn-submit"
-                            disabled={loading}
+                            onClick={handleSubmit}
                         >
                             Tạo quản trị viên
                         </button>
