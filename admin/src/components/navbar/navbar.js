@@ -92,9 +92,19 @@ export default function Navbar() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate("/admin/login", { replace: true });
+  const handleLogout = async () => {
+    try {
+      await fetch("https://backend-onlinesystem.onrender.com/api/admin/logout", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${user?.token}` 
+        }
+      });
+      logout(); // xóa token client-side
+      navigate("/admin/login", { replace: true });
+    } catch (e) {
+      alert("Lỗi đăng xuất!");
+    }
   };
 
   return (

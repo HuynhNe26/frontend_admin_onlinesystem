@@ -10,7 +10,6 @@ export default function CreateAdmin() {
         fullName: '',
         dateOfBirth: '',
         password: '',
-        confirmPassword: '',
         level: '2',
         gender: ''
     })
@@ -103,7 +102,6 @@ export default function CreateAdmin() {
             fullName: '',
             dateOfBirth: '',
             password: '',
-            confirmPassword: '',
             level: '2',
             gender: ''
         })
@@ -189,9 +187,8 @@ export default function CreateAdmin() {
                                 className={`form-input ${errors.gender ? 'error' : ''}`}
                             >
                                 <option value="">-- Chọn giới tính --</option>
-                                <option value="male">Nam</option>
-                                <option value="female">Nữ</option>
-                                <option value="other">Khác</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
                             </select>
                             {errors.gender && <span className="error-message">{errors.gender}</span>}
                         </div>
