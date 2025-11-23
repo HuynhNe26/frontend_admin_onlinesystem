@@ -1,0 +1,300 @@
+.admin-info-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-info-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.admin-info-header h1 {
+    color: #2c3e50;
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.admin-info-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.admin-info-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.admin-info-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+.info-row:hover {
+    background-color: #fafafa;
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 8px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #34495e;
+    font-size: 16px;
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+}
+
+.info-value {
+    color: black;
+    font-size: 16px;
+    text-align: right;
+    flex: 1;
+    padding: 8px 12px;
+}
+
+.info-value.role {
+    color: black;
+    padding: 8px 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.info-value.readonly {
+    color: black;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-style: italic;
+    display: inline-block;
+}
+
+.info-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    transition: all 0.3s ease;
+    background: white;
+    font-family: inherit;
+}
+
+.info-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.info-input:hover {
+    border-color: #b0b0b0;
+}
+
+select.info-input {
+    cursor: pointer;
+}
+
+.info-actions {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.edit-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-edit-info,
+.btn-save,
+.btn-cancel {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-edit-info {
+    background: linear-gradient(135deg, #667eea 0%, #43a6a8 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-edit-info:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4);
+}
+
+.btn-save:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(17, 153, 142, 0.5);
+}
+
+.btn-cancel {
+    background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(238, 9, 121, 0.4);
+}
+
+.btn-cancel:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(238, 9, 121, 0.5);
+}
+
+.btn-edit-info:active,
+.btn-save:active,
+.btn-cancel:active {
+    transform: translateY(0);
+}
+
+.btn-edit-info svg,
+.btn-save svg,
+.btn-cancel svg {
+    flex-shrink: 0;
+}
+
+.no-data {
+    text-align: center;
+    padding: 80px 20px;
+    color: #95a5a6;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* Animation khi load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-info-card {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-info-container {
+        margin: 20px;
+        padding: 15px;
+    }
+    
+    .admin-info-header h1 {
+        font-size: 28px;
+    }
+    
+    .admin-info-card {
+        padding: 24px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 0;
+    }
+    
+    .info-row:hover {
+        margin: 0;
+        padding: 16px 0;
+    }
+    
+    .info-label {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .info-value {
+        text-align: left;
+        width: 100%;
+    }
+    
+    .info-input {
+        width: 100%;
+    }
+    
+    .info-actions {
+        flex-direction: column;
+    }
+    
+    .edit-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-edit-info,
+    .btn-save,
+    .btn-cancel {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-info-header h1 {
+        font-size: 24px;
+    }
+    
+    .admin-info-card {
+        padding: 20px;
+    }
+    
+    .info-label {
+        font-size: 14px;
+    }
+    
+    .info-value,
+    .info-input {
+        font-size: 14px;
+    }
+}
