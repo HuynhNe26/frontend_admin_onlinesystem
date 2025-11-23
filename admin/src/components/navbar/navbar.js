@@ -54,7 +54,7 @@ export default function Navbar() {
       icon: FileText,
       subMenu: [
         { to: "/exams/manage", label: "Quản lý đề thi" },
-        { to: "/exams/create", label: "Tạo đề thi" },
+        { to: "/exams/creat", label: "Tạo đề thi" },
       ],
     },
     {
