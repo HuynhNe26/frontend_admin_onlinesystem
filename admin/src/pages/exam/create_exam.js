@@ -1,285 +1,200 @@
-import React, { useState, useEffect } from 'react';
-import Loading from "../../components/loading/loading";
+import React, { useState, useEffect } from "react";
 import "./create_exam.css";
 
 export default function CreateExam() {
-    const [loading, setLoading] = useState(false);
-
     const [departments, setDepartments] = useState([]);
+    const [selectedDept, setSelectedDept] = useState("");
+
     const [classes, setClasses] = useState([]);
-    const [filteredClasses, setFilteredClasses] = useState([]);
+    const [selectedClass, setSelectedClass] = useState("");
+
     const [difficulties, setDifficulties] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [selectedDiff, setSelectedDiff] = useState("");
 
-    const [selectedDepartment, setSelectedDepartment] = useState(null);
-    const [selectedClass, setSelectedClass] = useState(null);
-    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [totalQues, setTotalQues] = useState("");
+    const [duration, setDuration] = useState("");
+    const [examName, setExamName] = useState("");
 
-    const [questionForm, setQuestionForm] = useState({
-        ques_text: "",
-        ans_a: "",
-        ans_b: "",
-        ans_c: "",
-        ans_d: "",
-        correct_ans: "",
-        point: 1,
-        explanation: ""
-    });
-
-    const [allQuestions, setAllQuestions] = useState([]);
-    const [examForm, setExamForm] = useState({
-        total_question: "",
-        duration: "",
-        exam_cat: "draft",
-        start_time: "",
-        end_time: "",
-        questions: []
-    });
-
-    const [createdExamId, setCreatedExamId] = useState(null);
-
-    // ----------------- FETCH INITIAL DATA -----------------
+    // ------------------- Fetch departments -------------------
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
+        const fetchDepartments = async () => {
             try {
-                const [deptRes, diffRes, catRes] = await Promise.all([
-                    fetch("https://backend-onlinesystem.onrender.com/api/exam/departments"),
-                    fetch("https://backend-onlinesystem.onrender.com/api/exam/difficulties"),
-                    fetch("https://backend-onlinesystem.onrender.com/api/exam/categories")
-                ]);
-
-                const deptData = await deptRes.json();
-                const diffData = await diffRes.json();
-                const catData = await catRes.json();
-
-                setDepartments(deptData.success ? deptData.data : []);
-                setDifficulties(diffData.success ? diffData.data : []);
-                setCategories(catData.success ? catData.data : []);
-            } catch (e) {
-                console.error(e);
-                alert("Lỗi lấy dữ liệu từ server");
-            } finally {
-                setLoading(false);
+                const res = await fetch(
+                    "https://backend-onlinesystem.onrender.com/api/ad_exam/departments"
+                );
+                const data = await res.json();
+                if (data.success && Array.isArray(data.data)) {
+                    setDepartments(data.data);
+                }
+            } catch (err) {
+                console.error("Lỗi fetch departments:", err);
             }
         };
-        fetchData();
+        fetchDepartments();
     }, []);
 
-    // ----------------- FETCH CLASSES WHEN DEPARTMENT CHANGES -----------------
+    // ------------------- Fetch classes khi chọn department -------------------
     useEffect(() => {
-        const fetchClassesByDept = async () => {
-            if (!selectedDepartment) return setFilteredClasses([]);
-            setLoading(true);
+        if (!selectedDept) {
+            setClasses([]);
+            setSelectedClass("");
+            return;
+        }
+        const fetchClasses = async () => {
             try {
-                const res = await fetch(`https://backend-onlinesystem.onrender.com/api/exam/classrooms?id_department=${selectedDepartment.id_department}`);
+                const res = await fetch(
+                    `https://backend-onlinesystem.onrender.com/api/ad_exam/classrooms?id_department=${selectedDept}`
+                );
                 const data = await res.json();
-                setFilteredClasses(data.success ? data.data : []);
-                setSelectedClass(null); // reset class when department changes
-            } catch (e) {
-                console.error(e);
-            } finally {
-                setLoading(false);
+                if (data.success && Array.isArray(data.data)) {
+                    setClasses(data.data);
+                }
+            } catch (err) {
+                console.error("Lỗi fetch classes:", err);
+                setClasses([]);
             }
         };
-        fetchClassesByDept();
-    }, [selectedDepartment]);
+        fetchClasses();
+    }, [selectedDept]);
 
-    if (loading) return <Loading />;
-
-    // ----------------- CREATE QUESTION -----------------
-    const handleCreateQuestion = async () => {
-        const { ques_text, ans_a, ans_b, ans_c, ans_d, correct_ans } = questionForm;
-        if (!ques_text || !ans_a || !ans_b || !ans_c || !ans_d || !correct_ans) {
-            return alert("Vui lòng điền đầy đủ thông tin câu hỏi");
-        }
-
-        setLoading(true);
-        try {
-            const res = await fetch("https://backend-onlinesystem.onrender.com/api/exam/question/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...questionForm, point: Number(questionForm.point) })
-            });
-            const data = await res.json();
-            if (data.success) {
-                alert("Tạo câu hỏi thành công");
-                setAllQuestions(prev => [...prev, { id_question: data.id_question, ...questionForm }]);
-                setQuestionForm({ ques_text: "", ans_a: "", ans_b: "", ans_c: "", ans_d: "", correct_ans: "", point: 1, explanation: "" });
-            } else {
-                alert(data.message || "Tạo câu hỏi thất bại");
+    // ------------------- Fetch difficulties -------------------
+    useEffect(() => {
+        const fetchDifficulties = async () => {
+            try {
+                const res = await fetch(
+                    "https://backend-onlinesystem.onrender.com/api/ad_exam/difficulties"
+                );
+                const data = await res.json();
+                if (data.success && Array.isArray(data.data)) {
+                    setDifficulties(data.data);
+                }
+            } catch (err) {
+                console.error("Lỗi fetch difficulties:", err);
             }
-        } catch (e) {
-            console.error(e);
-            alert("Lỗi server khi tạo câu hỏi");
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+        fetchDifficulties();
+    }, []);
 
-    // ----------------- CREATE EXAM -----------------
+    // ------------------- Tạo đề thi -------------------
     const handleCreateExam = async () => {
-        if (!selectedDepartment || !selectedClass || !selectedDifficulty || !selectedCategory ||
-            !examForm.total_question || !examForm.duration) {
-            return alert("Vui lòng chọn đầy đủ dữ liệu và điền thông tin đề thi");
+        if (
+            !selectedDept ||
+            !selectedClass ||
+            !selectedDiff ||
+            !totalQues ||
+            !duration ||
+            !examName
+        ) {
+            alert("Vui lòng điền đầy đủ thông tin!");
+            return;
         }
 
-        setLoading(true);
-        try {
-            const formatDateTime = dt => dt.replace("T", " ");
-            const payload = {
-                id_department: selectedDepartment.id_department,
-                id_class: selectedClass.id_class,
-                id_diff: selectedDifficulty.id_diff,
-                exam_cat: selectedCategory.key,
-                total_question: Number(examForm.total_question),
-                duration: Number(examForm.duration),
-                start_time: examForm.start_time ? formatDateTime(examForm.start_time) : undefined,
-                end_time: examForm.end_time ? formatDateTime(examForm.end_time) : undefined
-            };
+        const examData = {
+            id_department: selectedDept,
+            id_class: selectedClass,
+            id_diff: selectedDiff,
+            total_ques: totalQues,
+            duration: duration,
+            name_ex: examName,
+            exam_cat: "draft", // nếu k cho chọn, mặc định là "draft"
+        };
 
-            const res = await fetch("https://backend-onlinesystem.onrender.com/api/exam/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+        try {
+            const res = await fetch(
+                "https://backend-onlinesystem.onrender.com/api/ad_exam/create",
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(examData),
+                }
+            );
             const data = await res.json();
             if (data.success) {
-                alert("Tạo đề thi thành công");
-                setCreatedExamId(data.id_exam);
+                alert("Tạo đề thành công!");
+                // reset form
+                setExamName("");
+                setSelectedDept("");
+                setSelectedClass("");
+                setSelectedDiff("");
+                setTotalQues("");
+                setDuration("");
             } else {
-                alert(data.message || "Tạo đề thi thất bại");
+                alert("Lỗi tạo đề: " + data.message);
             }
-        } catch (e) {
-            console.error(e);
-            alert("Lỗi server khi tạo đề thi");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // ----------------- ADD QUESTIONS TO EXAM -----------------
-    const handleAddQuestions = async () => {
-        if (!createdExamId) return alert("Chưa tạo đề thi");
-        if (examForm.questions.length === 0) return alert("Chưa chọn câu hỏi nào");
-
-        setLoading(true);
-        try {
-            const res = await fetch(`https://backend-onlinesystem.onrender.com/api/exam/${createdExamId}/add-questions`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ questions: examForm.questions })
-            });
-            const data = await res.json();
-            if (data.success) {
-                alert("Gán câu hỏi thành công");
-                setExamForm(prev => ({ ...prev, questions: [] }));
-            } else {
-                alert(data.message || "Gán câu hỏi thất bại");
-            }
-        } catch (e) {
-            console.error(e);
-            alert("Lỗi server khi gán câu hỏi");
-        } finally {
-            setLoading(false);
+        } catch (err) {
+            console.error("Lỗi tạo đề:", err);
         }
     };
 
     return (
-        <div className="manage-admin-container">
-            <h1 className="page-title">Quản Lý Đề Thi</h1>
+        <div className="exam-container">
+            <h2>Tạo đề thi</h2>
+            <div className="exam-card">
+                <label>Tiêu đề đề thi</label>
+                <input
+                    type="text"
+                    placeholder="Nhập tên đề thi"
+                    value={examName}
+                    onChange={(e) => setExamName(e.target.value)}
+                />
 
-            {/* CREATE QUESTION */}
-            <section>
-                <h2>Tạo câu hỏi mới</h2>
-                <input placeholder="Câu hỏi" value={questionForm.ques_text} onChange={e => setQuestionForm({ ...questionForm, ques_text: e.target.value })} />
-                <input placeholder="A" value={questionForm.ans_a} onChange={e => setQuestionForm({ ...questionForm, ans_a: e.target.value })} />
-                <input placeholder="B" value={questionForm.ans_b} onChange={e => setQuestionForm({ ...questionForm, ans_b: e.target.value })} />
-                <input placeholder="C" value={questionForm.ans_c} onChange={e => setQuestionForm({ ...questionForm, ans_c: e.target.value })} />
-                <input placeholder="D" value={questionForm.ans_d} onChange={e => setQuestionForm({ ...questionForm, ans_d: e.target.value })} />
-                <input placeholder="Đáp án đúng" value={questionForm.correct_ans} onChange={e => setQuestionForm({ ...questionForm, correct_ans: e.target.value })} />
-                <input placeholder="Điểm" type="number" value={questionForm.point} onChange={e => setQuestionForm({ ...questionForm, point: Number(e.target.value) })} />
-                <input placeholder="Giải thích" value={questionForm.explanation} onChange={e => setQuestionForm({ ...questionForm, explanation: e.target.value })} />
-                <button onClick={handleCreateQuestion}>Tạo câu hỏi</button>
-            </section>
-
-            {/* SELECT DATA */}
-            <section>
-                <h2>Chọn dữ liệu đề thi</h2>
-
-                <div>
-                    <h3>Phòng ban</h3>
-                    {departments.map(d => (
-                        <label key={d.id_department} style={{ display: 'block' }}>
-                            <input type="radio" name="department" onChange={() => setSelectedDepartment(d)} checked={selectedDepartment === d} />
+                <label>Môn học</label>
+                <select value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
+                    <option value="">Chọn môn học</option>
+                    {departments.map((d) => (
+                        <option key={d.id_department} value={d.id_department}>
                             {d.name_department}
-                        </label>
+                        </option>
                     ))}
-                </div>
+                </select>
 
-                <div>
-                    <h3>Lớp học</h3>
-                    {filteredClasses.map(c => (
-                        <label key={c.id_class} style={{ display: 'block' }}>
-                            <input type="radio" name="class" onChange={() => setSelectedClass(c)} checked={selectedClass === c} />
+                <label>Lớp</label>
+                <select
+                    value={selectedClass}
+                    onChange={(e) => setSelectedClass(e.target.value)}
+                    disabled={!selectedDept || classes.length === 0}
+                >
+                    <option value="">Chọn lớp</option>
+                    {classes.map((c) => (
+                        <option key={c.id_class} value={c.id_class}>
                             {c.class_name}
-                        </label>
+                        </option>
                     ))}
-                </div>
+                </select>
 
-                <div>
-                    <h3>Độ khó</h3>
-                    {difficulties.map(d => (
-                        <label key={d.id_diff} style={{ display: 'block' }}>
-                            <input type="radio" name="difficulty" onChange={() => setSelectedDifficulty(d)} checked={selectedDifficulty === d} />
+                <label>Độ khó</label>
+                <select
+                    value={selectedDiff}
+                    onChange={(e) => setSelectedDiff(e.target.value)}
+                >
+                    <option value="">Chọn độ khó</option>
+                    {difficulties.map((d) => (
+                        <option key={d.id_diff} value={d.id_diff}>
                             {d.difficulty}
-                        </label>
+                        </option>
                     ))}
-                </div>
+                </select>
 
-                <div>
-                    <h3>Loại đề</h3>
-                    {categories.map(c => (
-                        <label key={c.key} style={{ display: 'block' }}>
-                            <input type="radio" name="category" onChange={() => setSelectedCategory(c)} checked={selectedCategory === c} />
-                            {c.label}
-                        </label>
-                    ))}
-                </div>
+                <label>Số câu hỏi</label>
+                <input
+                    type="number"
+                    min="1"
+                    placeholder="Nhập số câu hỏi"
+                    value={totalQues}
+                    onChange={(e) => setTotalQues(e.target.value)}
+                />
 
-                <input placeholder="Tổng câu hỏi" type="number" value={examForm.total_question} onChange={e => setExamForm({ ...examForm, total_question: e.target.value })} />
-                <input placeholder="Thời gian (phút)" type="number" value={examForm.duration} onChange={e => setExamForm({ ...examForm, duration: e.target.value })} />
-
-                {selectedCategory?.key === 'scheduled' && (
-                    <>
-                        <input type="datetime-local" value={examForm.start_time} onChange={e => setExamForm({ ...examForm, start_time: e.target.value })} />
-                        <input type="datetime-local" value={examForm.end_time} onChange={e => setExamForm({ ...examForm, end_time: e.target.value })} />
-                    </>
-                )}
+                <label>Thời gian làm bài (phút)</label>
+                <input
+                    type="number"
+                    min="1"
+                    placeholder="Nhập thời gian"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                />
 
                 <button onClick={handleCreateExam}>Tạo đề thi</button>
-            </section>
-
-            {/* ADD QUESTIONS */}
-            {createdExamId && allQuestions.length > 0 && (
-                <section>
-                    <h2>Gán câu hỏi vào đề thi</h2>
-                    {allQuestions.map(q => (
-                        <label key={q.id_question} style={{ display: 'block', margin: '5px 0' }}>
-                            <input type="checkbox" value={q.id_question} checked={examForm.questions.includes(q.id_question)}
-                                onChange={e => {
-                                    const val = Number(e.target.value);
-                                    if (e.target.checked) setExamForm({ ...examForm, questions: [...examForm.questions, val] });
-                                    else setExamForm({ ...examForm, questions: examForm.questions.filter(x => x !== val) });
-                                }}
-                            />
-                            {q.ques_text}
-                        </label>
-                    ))}
-                    <button onClick={handleAddQuestions}>Gán câu hỏi</button>
-                </section>
-            )}
+            </div>
         </div>
     );
 }
