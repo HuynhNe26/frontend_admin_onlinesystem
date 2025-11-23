@@ -54,7 +54,7 @@ export default function Navbar() {
       icon: FileText,
       subMenu: [
         { to: "/exams/manage", label: "Quản lý đề thi" },
-        { to: "/exams/create", label: "Tạo đề thi" },
+        { to: "/exams/creat", label: "Tạo đề thi" },
       ],
     },
     {
@@ -71,11 +71,10 @@ export default function Navbar() {
       label: "Người dùng",
       icon: Users,
       subMenu: [
-        { to: "/admin/manage-users", label: "Quản lý người dùng" },
+        { to: "/admin/manage_users", label: "Quản lý người dùng" },
         { to: "/users/blacklist", label: "Danh sách đen" },
       ],
     },
-    { to: "/revenue", label: "Doanh thu", icon: DollarSign },
   ];
 
   const filteredMenu =
@@ -174,12 +173,12 @@ export default function Navbar() {
       <div className="navbar-footer">
         <div className="user-info">
           <div className="user-avatar">
-            <Users size={20} />
+            {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
           </div>
           <div className="user-details">
             <span className="user-name">{user?.name || "Admin"}</span>
             <span className="user-role">
-              {level === 2 ? "Super Admin" : "Admin"}
+              {level === 2 ? "Quản trị viên" : "Quản trị viên cấp cao"}
             </span>
           </div>
         </div>

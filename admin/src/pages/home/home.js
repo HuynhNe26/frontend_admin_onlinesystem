@@ -8,7 +8,6 @@ export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [greeting, setGreeting] = useState("");
 
-  // Mock stats (có thể thay bằng API sau)
   const [stats] = useState({
     totalUsers: 123,
     totalExams: 45,
@@ -16,7 +15,6 @@ export default function Home() {
     revenue: 9876543,
   });
 
-  // Update giờ và greeting
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
 
@@ -44,7 +42,6 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      {/* Hero Section */}
       <div className="hero">
         <div className="hero-content">
           <div className="greeting-section">
@@ -68,7 +65,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Quick Stats */}
       <div className="stats-grid">
         {quickStats.map((stat, index) => (
           <div key={index} className={`stat-card ${stat.color}`} style={{ animationDelay: `${index * 0.1}s` }}>
@@ -82,7 +78,6 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Recent Activities */}
       <div className="activities-section">
         <div className="section-header">
           <h2 className="section-title">🔔 Hoạt động gần đây</h2>
