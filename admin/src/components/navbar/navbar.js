@@ -34,9 +34,9 @@ export default function Navbar() {
       label: "Thống kê",
       icon: BarChart3,
       subMenu: [
-        { to: "/statistical/user", label: "Người dùng" },
-        { to: "/statistical/revenue", label: "Doanh thu" },
-        { to: "/statistical/take_exam", label: "Lượt làm bài" },
+        { to: "/statistic/user", label: "Người dùng" },
+        { to: "/statistic/revenue", label: "Doanh thu" },
+        { to: "/statistic/take_exam", label: "Lượt làm bài" },
       ],
     },
     {
@@ -182,15 +182,17 @@ export default function Navbar() {
 
       <div className="navbar-footer">
         <div className="user-info">
+          <Link style={{textDecoration: 'none', color: 'white', display: 'flex'}} to={`/admin/${user.id}`}>
           <div className="user-avatar">
-            {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
           </div>
-          <div className="user-details">
+          <div className="user-details" style={{marginLeft: '12px'}}>
             <span className="user-name">{user?.name || "Admin"}</span>
             <span className="user-role">
               {level === 2 ? "Quản trị viên" : "Quản trị viên cấp cao"}
             </span>
           </div>
+          </Link>
         </div>
 
         <button className="navbar-link logout-link" onClick={handleLogout}>
