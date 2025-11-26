@@ -78,7 +78,6 @@ export default function CreateExam() {
     // ------------------- Tạo đề thi -------------------
     const handleCreateExam = async () => {
         if (
-            !selectedDept ||
             !selectedClass ||
             !selectedDiff ||
             !totalQues ||
@@ -90,7 +89,6 @@ export default function CreateExam() {
         }
 
         const examData = {
-            id_department: selectedDept,
             id_class: selectedClass,
             id_diff: selectedDiff,
             total_ques: totalQues,
@@ -113,7 +111,6 @@ export default function CreateExam() {
                 alert("Tạo đề thành công!");
                 // reset form
                 setExamName("");
-                setSelectedDept("");
                 setSelectedClass("");
                 setSelectedDiff("");
                 setTotalQues("");
