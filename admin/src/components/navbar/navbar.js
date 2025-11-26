@@ -80,8 +80,8 @@ export default function Navbar() {
   const filteredMenu =
     level === 3
       ? menuItems.filter(
-          (item) => item.label !== "Quản trị viên" && item.label !== "Người dùng"
-        )
+        (item) => item.label !== "Quản trị viên" && item.label !== "Người dùng"
+      )
       : menuItems;
 
   const handleMenuClick = (item) => {
@@ -97,7 +97,7 @@ export default function Navbar() {
       await fetch("https://backend-onlinesystem.onrender.com/api/admin/logout", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${user?.token}` 
+          "Authorization": `Bearer ${user?.token}`
         }
       });
       logout(); // xóa token client-side
@@ -129,9 +129,8 @@ export default function Navbar() {
             <div key={item.to} className="menu-item-wrapper">
               {item.subMenu ? (
                 <div
-                  className={`navbar-link ${isActive ? "active" : ""} ${
-                    openMenu === item.to ? "submenu-open" : ""
-                  }`}
+                  className={`navbar-link ${isActive ? "active" : ""} ${openMenu === item.to ? "submenu-open" : ""
+                    }`}
                   onClick={() => handleMenuClick(item)}
                 >
                   <div className="nav-link-content">
@@ -165,9 +164,8 @@ export default function Navbar() {
                     <Link
                       key={sub.to}
                       to={sub.to}
-                      className={`submenu-link ${
-                        activeLink === sub.to ? "active" : ""
-                      }`}
+                      className={`submenu-link ${activeLink === sub.to ? "active" : ""
+                        }`}
                     >
                       <span className="submenu-dot">•</span>
                       {sub.label}
@@ -182,16 +180,16 @@ export default function Navbar() {
 
       <div className="navbar-footer">
         <div className="user-info">
-          <Link style={{textDecoration: 'none', color: 'white', display: 'flex'}} to={`/admin/${user.id}`}>
-          <div className="user-avatar">
-                {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-          </div>
-          <div className="user-details" style={{marginLeft: '12px'}}>
-            <span className="user-name">{user?.name || "Admin"}</span>
-            <span className="user-role">
-              {level === 2 ? "Quản trị viên" : "Quản trị viên cấp cao"}
-            </span>
-          </div>
+          <Link style={{ textDecoration: 'none', color: 'white', display: 'flex' }} to={`/admin/${user.id}`}>
+            <div className="user-avatar">
+              {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
+            </div>
+            <div className="user-details" style={{ marginLeft: '12px' }}>
+              <span className="user-name">{user?.name || "Admin"}</span>
+              <span className="user-role">
+                {level === 2 ? "Quản trị viên" : "Quản trị viên cấp cao"}
+              </span>
+            </div>
           </Link>
         </div>
 

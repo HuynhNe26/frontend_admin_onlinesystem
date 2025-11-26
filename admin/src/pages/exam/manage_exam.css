@@ -1,0 +1,170 @@
+.manage-exams {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.manage-exams h2 {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #007bff;           /* xanh chủ đạo */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+/* thêm gạch chân trang trí */
+.manage-exams h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #007bff;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+.exam-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.exam-table th, .exam-table td {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  text-align: center;
+}
+
+.exam-table th {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 500;
+}
+
+.exam-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.exam-table tr:hover {
+  background-color: #eef6ff;
+  transition: background 0.2s ease-in-out;
+}
+
+.exam-table button {
+  margin: 0 5px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.exam-table button:first-of-type {
+  background-color: #17a2b8; /* Xem */
+  color: #fff;
+}
+
+.exam-table button:last-of-type {
+  background-color: #dc3545; /* Xóa */
+  color: #fff;
+}
+
+.exam-table button:hover {
+  opacity: 0.9;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #007bff;
+}
+
+.modal-content h4 {
+  margin-top: 20px;
+  color: #2c3e50;
+}
+
+.question-list {
+  list-style: none;
+  padding: 0;
+}
+
+.question-list li {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #fdfdfd;
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+.explain {
+  margin-top: 6px;
+  font-style: italic;
+  color: #555;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-actions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-actions button:first-of-type {
+  background: #dc3545;
+  color: #fff;
+}
+
+.modal-actions .close {
+  background: #6c757d;
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

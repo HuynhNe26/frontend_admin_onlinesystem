@@ -12,6 +12,7 @@ import AdminInfo from "./pages/admin/admin_info";
 import ManageUsers from "./pages/users/manage_user";
 import StatisticUser from "./pages/statistic/statistic_users";
 import CreateExam from "./pages/exam/create_exam";
+import ManageExams from "./pages/exam/manage_exam";
 
 import { useAuth } from "./context/AuthContext";
 
@@ -37,6 +38,7 @@ export default function Router() {
             <Route path="/admin/manage_users" element={<ManageUsers />} />
             <Route path="/statistic/user" element={<StatisticUser />} />
             <Route path="/exams/creat" element={<CreateExam />} />
+            <Route path="/exams/manage" element={<ManageExams />} />
             <Route path="/admin/login" element={<Login />} />
             <Route path="*" element={<Error404 />} />
           </Route>
