@@ -1,0 +1,27 @@
+/* delete_department.css */
+.delete-department-container {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #f87171;
+  background: #fff1f1;
+  text-align: center;
+}
+.delete-department-container h2 {
+  margin-bottom: 15px;
+  color: #b91c1c;
+}
+.delete-department-container button {
+  padding: 10px 20px;
+  background-color: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.delete-department-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

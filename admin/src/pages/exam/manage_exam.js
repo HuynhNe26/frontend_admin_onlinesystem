@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom'
+import Loading from "../../components/loading/loading"
 import "./manage_exam.css";
 
 export default function ManageExams() {
@@ -64,7 +66,7 @@ export default function ManageExams() {
             alert("Lỗi mạng hoặc server!");
         }
     };
-
+    if (loading) return <Loading />
     return (
         <div className="manage-exams">
             <h2>Quản lý đề thi</h2>

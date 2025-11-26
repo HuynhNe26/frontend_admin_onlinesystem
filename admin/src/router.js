@@ -13,7 +13,10 @@ import ManageUsers from "./pages/users/manage_user";
 import StatisticUser from "./pages/statistic/statistic_users";
 import CreateExam from "./pages/exam/create_exam";
 import ManageExams from "./pages/exam/manage_exam";
-
+import ManageDepartment from "./pages/department/manage_department";
+import CreateDepartment from "./pages/department/create_department";
+import UpdateDepartment from "./pages/department/update_department";
+import DeleteDepartment from "./pages/department/delete_department";
 import { useAuth } from "./context/AuthContext";
 
 export default function Router() {
@@ -39,12 +42,17 @@ export default function Router() {
             <Route path="/statistic/user" element={<StatisticUser />} />
             <Route path="/exams/creat" element={<CreateExam />} />
             <Route path="/exams/manage" element={<ManageExams />} />
+
+            {/* Department CRUD routes */}
+            <Route path="/departments/manage" element={<ManageDepartment />} />
+            <Route path="/departments/create" element={<CreateDepartment />} />
+            <Route path="/departments/update/:id" element={<UpdateDepartment />} />
+            <Route path="/departments/delete/:id" element={<DeleteDepartment/>}/>
             <Route path="/admin/login" element={<Login />} />
             <Route path="*" element={<Error404 />} />
           </Route>
         </>
       )}
-
     </Routes>
   );
 }
